@@ -30,9 +30,12 @@
 		<button type="button" id="startButton" onclick="startGame()">Start Game</button>
 		<button type="button" id="viewType" onclick="switchViewType()">Switch View</button>
 		
-		<p> 
-			
-		</p>
+
+		<p> Reset Array: Will create a new map randomly generated with the values entered in the 
+						input boxes above.</p>
+		<p> Make Caverns: Will run one iteration of cellular automata on the walls</p>
+		<p> Start Game: Will place a player on the map, they can be moved with the keys: w,a,s,d</p>
+		<p> Switch View: Will change the view from one of the two views: Text, Images</p>
 		
 		<script>
 			window.addEventListener( "keydown", doKeyDown );
@@ -101,7 +104,7 @@
 					var oldLoc = map.getPlayerLoc();
 					map.movePlayer(1,0);
 					var newLoc = new Array(oldLoc[0], oldLoc[1] + 1)
-					animateWalk(oldLoc, newLoc);
+					//animateWalk(oldLoc, newLoc);
 					draw(false);
 				}
 				
@@ -135,13 +138,12 @@
 					var c = document.getElementById("myCanvas");
 					var ctx = c.getContext("2d");
 					ctx.clearRect(0, 0, c.width, c.height);
-					ctx.save()
 
 					if ( i % 2 == 0){
-						//console.log("left");
-						//console.log(diff);
-						//console.log("POS Y: " + ((oldLoc[1]+1)*10 +(i*diff[1])).toString());
-						//console.log("POS X: " + ((oldLoc[0] + 1)*10  +(i*diff[0])).toString());
+						console.log("left");
+						console.log(diff);
+						console.log("POS Y: " + ((oldLoc[1]+1)*10 +(i*diff[1])).toString());
+						console.log("POS X: " + ((oldLoc[0] + 1)*10  +(i*diff[0])).toString());
 						for (row = 0; row < height; row++){
 							for (col = 0; col < width; col++){		
 								var val = map.getElemAt(row,col)
@@ -155,7 +157,7 @@
 							}
 						}
 						ctx.drawImage(playerWalkImg1,(((oldLoc[1]+1)*10) +(i*diff[1])), (((oldLoc[0] + 1)*10)  +(i*diff[0])));
-						//sleep(100);
+						//sleep(10);
 					}else{
 						//console.log("right");
 						for (row = 0; row < height; row++){
@@ -171,9 +173,8 @@
 							}
 						}
 						ctx.drawImage(playerWalkImg2,(((oldLoc[1]+1)*10) +(i*diff[1])), (((oldLoc[0] + 1)*10)  +(i*diff[0])));
-						//sleep(100);
+						//sleep(10);
 					}
-					ctx.restore();
 				}
 			}
 			
