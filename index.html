@@ -2,6 +2,7 @@
 	<head?>
 		<title id="Front Page" 2-D Board></title>
 		<script src="MapHandler/maphandler.js" type="text/javascript"></script>
+		<script src="View/view.js" type="text/javascript"></script>
 	</head>
 	<body>
 		<img id="grassImg" src="Images/grass10-10.png" style="display: none;">
@@ -29,32 +30,31 @@
 		<button type="button" id="startButton" onclick="startGame()">Start Game</button>
 		<button type="button" id="viewType" onclick="switchViewType()">Switch View</button>
 		
+		<p> 
+			
+		</p>
+		
 		<script>
 			window.addEventListener( "keydown", doKeyDown );
 			var height = document.getElementById("height").value;
 			var width = document.getElementById("width").value;
 			var wallP = document.getElementById("wallP").value;
-			var viewType = 2;
 			var map = new MapHandler(width, height, wallP, true);
-			printArray(false);
+			var view = new View(document, 2);
+			view.draw(false, map);
 			function resetArray() {
-				printArray(true);
+				view.draw(true);
 			}
 			function makeCaverns() {
 				map.MakeCaverns();
-				printArray(false);
+				view.draw(false, map);
 			}
 			function switchViewType(){
-				if (viewType == 1){
-					viewType = 2;
-				}else{
-					viewType = 1;
-				}
-				printArray(false);
+				view.changeViewType(map);
 			}
 			function startGame(){
 				map.setPlayer();
-				printArray(false);
+				view.draw(false, map);
 			}
 
 			function doKeyDown(e){
@@ -67,7 +67,7 @@
 					map.movePlayer(0,-1);
 					var newLoc = new Array(oldLoc[0] + -1, oldLoc[1])
 					animateWalk(oldLoc, newLoc);
-					printArray(false);
+					view.draw(false, map);
 				}
 				//======================
 				//		The S Key
@@ -77,7 +77,7 @@
 					map.movePlayer(0,1);
 					var newLoc = new Array(oldLoc[0] + 1, oldLoc[1])
 					animateWalk(oldLoc, newLoc);
-					printArray(false);
+					view.draw(false, map);
 				}
 				//======================
 				//		The A Key
@@ -87,7 +87,7 @@
 					map.movePlayer(-1,0);
 					var newLoc = new Array(oldLoc[0], oldLoc[1] + -1)
 					animateWalk(oldLoc, newLoc);
-					printArray(false);
+					view.draw(false, map);
 				}
 				//======================
 				//		The D Key
@@ -97,7 +97,7 @@
 					map.movePlayer(1,0);
 					var newLoc = new Array(oldLoc[0], oldLoc[1] + 1)
 					animateWalk(oldLoc, newLoc);
-					printArray(false);
+					view.draw(false, map);
 				}
 				
 			}
@@ -220,7 +220,7 @@
 			//			}
 			//		}
 			//	}else if (viewType == 2){
-			//		printArray();					
+			//		view.draw();					
 			//	}
 
 			//}
