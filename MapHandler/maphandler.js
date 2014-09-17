@@ -2,6 +2,7 @@ function MapHandler(mapWidth, mapHeight, percentWall, fillMap){
 	this.mapWidth = mapWidth;
 	this.mapHeight = mapHeight;
 	this.percentWall = percentWall;
+	this.hasPlayer = false;
 	this.playerLoc = new Array(0,0);
 	if (fillMap){
 		this.map = this.RandomFillMap();
@@ -16,10 +17,11 @@ MapHandler.prototype.setPlayer = function(){
 		startLoc = [Math.floor(Math.random()*this.mapHeight), Math.floor(Math.random()*this.mapWidth)]
 	}
 	this.playerLoc = startLoc;
+	this.hasPlayer = true;
 }
 
 MapHandler.prototype.isPlayerPresentAtLoc = function(row, col){
-	if(this.playerLoc[0] == row && this.playerLoc[1] == col){
+	if(this.hasPlayer && (this.playerLoc[0] == row && this.playerLoc[1] == col)){
 		return true;
 	}else{
 		return false;
@@ -96,7 +98,7 @@ MapHandler.prototype.CloneMap = function(){
 MapHandler.prototype.PlaceWallLogic = function(row, col){
 	numWalls = this.GetAdjacentWalls(row,col,1,1)
 	if (this.map[row][col] == 1){
-		if (numWalls >= 3){
+		if (numWalls >= 4){
 			return 1;
 		}else if (numWalls < 2){
 			return 0;
@@ -110,16 +112,16 @@ MapHandler.prototype.PlaceWallLogic = function(row, col){
 }
 
 MapHandler.prototype.GetAdjacentWalls = function(row,col,scopeRow,scopeCol){
-	startRow = row - scopeRow;
-	startCol = col - scopeCol;
-	endRow = row + scopeRow;
-	endCol = col + scopeCol;
+	var startRow = row - scopeRow;
+	var startCol = col - scopeCol;
+	var endRow = row + scopeRow;
+	var endCol = col + scopeCol;
 
-	wallCounter = 0;
+	var wallCounter = 0;
 
-	for (iR = startRow; iR < endRow+1; iR++){
-		for (iC = startCol; iC <  endCol+1; iC++){
-			if (iR != row && iC != col){
+	for (var iR = startRow; iR < endRow+1; iR++){
+		for (var iC = startCol; iC <  endCol+1; iC++){
+			if (!(iR == row && iC == col)){
 				if (this.IsWall(iR,iC) == 1){
 					wallCounter += 1;
 				}
@@ -191,7 +193,7 @@ MapHandler.prototype.getHeight = function(){
 }
 
 MapHandler.prototype.movePlayer = function(x, y){
-	if (!(map.IsOutOfBound(this.playerLoc[0] + y, this.playerLoc[1] + x))){
+	if (!(map.IsWall(this.playerLoc[0] + y, this.playerLoc[1] + x))){
 		this.playerLoc[0] = this.playerLoc[0] + y;
 		this.playerLoc[1] = this.playerLoc[1] + x;
 	}
