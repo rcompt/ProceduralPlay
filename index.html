@@ -40,21 +40,26 @@
 			var width = document.getElementById("width").value;
 			var wallP = document.getElementById("wallP").value;
 			var map = new MapHandler(width, height, wallP, true);
-			var view = new View(document, 2);
-			view.draw(false, map);
+			var viewType = 1;
+			draw(false);
 			function resetArray() {
-				view.draw(true);
+				draw(true);
 			}
 			function makeCaverns() {
 				map.MakeCaverns();
-				view.draw(false, map);
+				draw(false);
 			}
 			function switchViewType(){
-				view.changeViewType(map);
+				if(viewType == 1){
+					viewType = 2;
+				}else{
+					viewType = 1;
+				}
+				draw(false);
 			}
 			function startGame(){
 				map.setPlayer();
-				view.draw(false, map);
+				draw(false);
 			}
 
 			function doKeyDown(e){
@@ -67,7 +72,7 @@
 					map.movePlayer(0,-1);
 					var newLoc = new Array(oldLoc[0] + -1, oldLoc[1])
 					animateWalk(oldLoc, newLoc);
-					view.draw(false, map);
+					draw(false);
 				}
 				//======================
 				//		The S Key
@@ -77,7 +82,7 @@
 					map.movePlayer(0,1);
 					var newLoc = new Array(oldLoc[0] + 1, oldLoc[1])
 					animateWalk(oldLoc, newLoc);
-					view.draw(false, map);
+					draw(false);
 				}
 				//======================
 				//		The A Key
@@ -87,7 +92,7 @@
 					map.movePlayer(-1,0);
 					var newLoc = new Array(oldLoc[0], oldLoc[1] + -1)
 					animateWalk(oldLoc, newLoc);
-					view.draw(false, map);
+					draw(false);
 				}
 				//======================
 				//		The D Key
@@ -97,7 +102,7 @@
 					map.movePlayer(1,0);
 					var newLoc = new Array(oldLoc[0], oldLoc[1] + 1)
 					animateWalk(oldLoc, newLoc);
-					view.draw(false, map);
+					draw(false);
 				}
 				
 			}
@@ -150,7 +155,7 @@
 							}
 						}
 						ctx.drawImage(playerWalkImg1,(((oldLoc[1]+1)*10) +(i*diff[1])), (((oldLoc[0] + 1)*10)  +(i*diff[0])));
-						sleep(100);
+						//sleep(100);
 					}else{
 						//console.log("right");
 						for (row = 0; row < height; row++){
@@ -166,7 +171,7 @@
 							}
 						}
 						ctx.drawImage(playerWalkImg2,(((oldLoc[1]+1)*10) +(i*diff[1])), (((oldLoc[0] + 1)*10)  +(i*diff[0])));
-						sleep(100);
+						//sleep(100);
 					}
 					ctx.restore();
 				}
@@ -224,7 +229,7 @@
 			//	}
 
 			//}
-			function printArray(resetMap){
+			function draw(resetMap){
 				var c = document.getElementById("myCanvas");
 				var ctx = c.getContext("2d");
 				ctx.clearRect(0, 0, c.width, c.height);

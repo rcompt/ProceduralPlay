@@ -2,8 +2,8 @@ function MapHandler(mapWidth, mapHeight, percentWall, fillMap){
 	this.mapWidth = mapWidth;
 	this.mapHeight = mapHeight;
 	this.percentWall = percentWall;
-	this.hasPlayer = false;
 	this.playerLoc = new Array(0,0);
+	this.hasPlayer = false;
 	if (fillMap){
 		this.map = this.RandomFillMap();
 	}else{
@@ -21,7 +21,7 @@ MapHandler.prototype.setPlayer = function(){
 }
 
 MapHandler.prototype.isPlayerPresentAtLoc = function(row, col){
-	if(this.hasPlayer && (this.playerLoc[0] == row && this.playerLoc[1] == col)){
+	if(this.hasPlayer && this.playerLoc[0] == row && this.playerLoc[1] == col){
 		return true;
 	}else{
 		return false;
@@ -112,15 +112,15 @@ MapHandler.prototype.PlaceWallLogic = function(row, col){
 }
 
 MapHandler.prototype.GetAdjacentWalls = function(row,col,scopeRow,scopeCol){
-	var startRow = row - scopeRow;
-	var startCol = col - scopeCol;
-	var endRow = row + scopeRow;
-	var endCol = col + scopeCol;
+	startRow = row - scopeRow;
+	startCol = col - scopeCol;
+	endRow = row + scopeRow;
+	endCol = col + scopeCol;
 
-	var wallCounter = 0;
+	wallCounter = 0;
 
-	for (var iR = startRow; iR < endRow+1; iR++){
-		for (var iC = startCol; iC <  endCol+1; iC++){
+	for (iR = startRow; iR < endRow+1; iR++){
+		for (iC = startCol; iC <  endCol+1; iC++){
 			if (!(iR == row && iC == col)){
 				if (this.IsWall(iR,iC) == 1){
 					wallCounter += 1;
