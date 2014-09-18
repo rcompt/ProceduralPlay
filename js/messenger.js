@@ -31,8 +31,6 @@ $(document).ready(function () {
 // Compose and send a message when the user clicks our send message button.
 	sendMessageButton.click(function (event) {
 		var message = messageContent.val();
-		console.log(name);
-		console.log(userName.val());
 		if(name != userName.val()){
 			name = userName.val();
 		}
