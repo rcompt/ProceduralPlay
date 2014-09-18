@@ -8,7 +8,12 @@ $(document).ready(function () {
 // Grab references for all of our elements.
 	var messageContent = $('#messageContent'),
 	sendMessageButton = $('#sendMessageButton'),
-	messageList = $('#messageList');
+	messageList = $('#messageList')
+	userName = $('#userName');
+	name = userName.val('User' + (Math.floor(Math.random()*10000)).toString());
+	if(name == 'Input Username' || name == ''){
+		name = 'User' + (Math.floor(Math.random()*10000)).toString();
+	}
  
 // Handles all the messages coming in from pubnub.subscribe.
 	function handleMessage(message) {
@@ -26,12 +31,17 @@ $(document).ready(function () {
 // Compose and send a message when the user clicks our send message button.
 	sendMessageButton.click(function (event) {
 		var message = messageContent.val();
+		console.log(name);
+		console.log(userName.val());
+		if(name != userName.val()){
+			name = userName.val();
+		}
  
 		if (message != '') {
 			pubnub.publish({
 				channel: 'chat',
 				message: {
-					username: 'test',
+					username: name,
 					text: message
 				}
 			});
